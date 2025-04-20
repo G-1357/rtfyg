@@ -26,12 +26,13 @@
                 <form action="{% url 'registration' %}" method="post" id="registrationForm">
                     {% csrf_token %}
                     <input type="text" name="login" class="form-control" placeholder="Логин" required>
-                    <input type="text" name="name" class="form-control" placeholder="Имя" required>
-                    <input type="text" name="surname" class="form-control" placeholder="Фамилия" required>
+                    <input type="text" name="first_name" class="form-control" placeholder="Имя" required>
+                    <input type="text" name="last_name" class="form-control" placeholder="Фамилия" required>
                     <input type="password" name="password" class="form-control" placeholder="Пароль" required>
                     <button type="submit" class="btn btn-primary btn-lg mt-3">Зарегистрироваться</button>
                     <a href="{% url 'enter' %}" class="btn btn-primary">Назад</a>
                 </form>
+
 
             </div>
         </div>

@@ -1,6 +1,6 @@
 import requests
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import LoginForm, EventForm
+from .forms import LoginForm, EventForm, RegistrationForm
 from rest_framework import generics
 from .models import Event, User
 from .serializers import EventSerializer, UserSerializer
@@ -165,14 +165,15 @@ def delete_event(request, event_id):
 
 
 
-
 def registration(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = RegistrationForm(request.POST)
+        print("fkjuhg")
         if form.is_valid():
-            login_data = form.cleaned_data
+            registration_data = form.cleaned_data
+            print("fkjuhg")
             try:
-                response = requests.post('http://37.9.4.22:8080/api/auth/sign-up', json=login_data)
+                response = requests.post('http://37.9.4.22:8080/api/auth/sign-up', json=registration_data)
 
                 if response.status_code == 400:
                     messages.error(request, 'Ошибка регистрации. Возможно, такой пользователь уже существует.')
@@ -181,10 +182,16 @@ def registration(request):
                     return redirect('enter')
 
             except requests.exceptions.RequestException as e:
-                pass  # messages.error(request, f'Ошибка регистрации: {e}')
+                messages.error(request, f'Ошибка регистрации: {e}')
     else:
-        form = LoginForm()
+        form = RegistrationForm()
+
     return render(request, 'registration.html', {'form': form})
+
+
+    return render(request, 'registration.html', {'form': form})
+
+
 
 
 def custom_login_redirect(request):
@@ -195,3 +202,5 @@ def custom_login_redirect(request):
 class CustomLogoutView(LogoutView):
     def get_next_page(self):
         return reverse('enter')
+
+
