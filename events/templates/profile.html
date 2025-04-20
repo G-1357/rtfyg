@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <title>Профиль организатора</title>
+    <style>
+        .small-btn {
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+        }
+    </style>
+    <style>
+        h2.text-center {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <h2 class="text-center">Профиль организатора</h2>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5>Имя: Иван</h5>
+                <h5>Фамилия: Смирнов</h5>
+                <p>Email: {{ user_data.email }}</p>
+                <p>Телефон: {{ user_data.phone }}</p>
+            </div>
+        </div>
+
+
+        <h2>Ваши мероприятия</h2>
+        {% if events %}
+            <ul>
+                {% for event in events %}
+                    <li>
+                        <strong>{{ event.title }} - {{ event.date }}</strong><br>
+                        <a href="{% url 'event_detail' event.id %}">Посмотреть</a> |
+                        <a href="{% url 'edit_event' event.id %}">Изменить</a> |
+                        <a href="{% url 'delete_event' event.id %}">Удалить</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>У вас пока нет мероприятий.</p>
+        {% endif %}
+
+        <a href="{% url 'create_event' %}" class="btn btn-success mt-3">Создать новое мероприятие</a>
+        <form action="{% url 'logout' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger small-btn">Выход</button>
+        </form>
+    </div>
+</body>
+</html>

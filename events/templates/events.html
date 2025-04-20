@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список мероприятий</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Список мероприятий</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if events %}
+            <ul class="list-group mb-4">
+                {% for event in events %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="{% url 'event_detail' event.id %}">
+                            {{ event.title }} — {{ event.date }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">Нет мероприятий для отображения.</p>
+        {% endif %}
+
+        <a href="{% url 'create_event' %}" class="btn btn-primary">Создать новое мероприятие</a>
+    </div>
+</body>
+</html>

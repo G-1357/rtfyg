@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать мероприятие</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Редактировать мероприятие: {{ event.title }}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+        {{ form.title.label_tag }} {{ form.title }}
+    </div>
+
+    <div class="form-group">
+        {{ form.description.label_tag }} {{ form.description }}
+    </div>
+
+    <div class="form-group">
+        {{ form.date.label_tag }} {{ form.date }}
+    </div>
+
+    <div class="form-group">
+        {{ form.attendee_count.label_tag }} {{ form.attendee_count }}
+    </div>
+
+    <div class="form-group">
+        {{ form.image.label_tag }} {{ form.image }}
+        {% if event.image %}
+            <p>Текущее изображение:</p>
+            <img src="{{ event.image.url }}" alt="Текущее изображение" style="max-width: 200px;">
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+
+
+
+
+<a href="{% url 'event_detail' event.id %}" class="btn btn-secondary mt-3">Назад</a>
+    </div>
+</body>
+</html>
